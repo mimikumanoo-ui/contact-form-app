@@ -1,66 +1,100 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# COACHTECH お問い合わせフォーム
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 概要
+本プロジェクトは、COACHTECH確認テストの要件に沿って構築されたお問い合わせ管理システムです。
+一般ユーザー向けのお問い合わせ入力・確認・送信・完了画面をはじめ、管理者向けのお問い合わせ管理（一覧・検索・詳細・削除）、タグ管理（CRUD）、CSV出力機能、および公開APIを提供します。
 
-## About Laravel
+## ER図
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+```mermaid
+erDiagram
+    users {
+        bigint id PK
+        string name
+        string email UK
+        timestamp email_verified_at
+        string password
+        string remember_token
+        timestamp created_at
+        timestamp updated_at
+    }
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    categories {
+        bigint id PK
+        string name
+        timestamp created_at
+        timestamp updated_at
+    }
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    contacts {
+        bigint id PK
+        bigint category_id FK
+        string first_name
+        string last_name
+        integer gender
+        string email
+        string tel
+        string address
+        string building
+        text detail
+        timestamp created_at
+        timestamp updated_at
+    }
 
-## Learning Laravel
+    tags {
+        bigint id PK
+        string name UK
+        timestamp created_at
+        timestamp updated_at
+    }
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    contact_tag {
+        bigint id PK
+        bigint contact_id FK
+        bigint tag_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    categories ||--o{ contacts : "1対多"
+    contacts ||--o{ contact_tag : "多対多"
+    tags ||--o{ contact_tag : "多対多"
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 環境構築手順
+1. リポジトリのクローン
+git clone git@github.com:mimikumanoo-ui/contact-form-app.git
+cd contact-form-app
 
-## Laravel Sponsors
+2. 環境変数の設定
+cp .env.example .env
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. Dockerコンテナの起動
+./vendor/bin/sail up -d
 
-### Premium Partners
+4. アプリケーションキーの生成
+sail artisan key:generate
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+5. マイグレーションおよびシーディングの実行
+sail artisan migrate:fresh --seed
 
-## Contributing
+## 使用技術
+- PHP 8.2
+- Laravel 10.x
+- MySQL 8.0
+- Webサーバー: Nginx
+- フロントエンド: Vite, Tailwind CSS ^3.4.0
+- 開発ツール: Docker, Laravel Sail, phpMyAdmin
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## APIエンドポイント一覧
+- GET /api/v1/contacts : お問い合わせ一覧取得
+- POST /api/v1/contacts : お問い合わせ作成
+- GET /api/v1/contacts/{id} : お問い合わせ詳細取得
+- PUT /api/v1/contacts/{id} : お問い合わせ更新
+- DELETE /api/v1/contacts/{id} : お問い合わせ削除
 
-## Code of Conduct
+## 開発環境URL
+- WEB: http://localhost
+- phpMyAdmin: http://localhost:8080
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 作成者
+戸澤美優
