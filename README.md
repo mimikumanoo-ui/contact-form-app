@@ -21,7 +21,7 @@ erDiagram
 
     categories {
         bigint id PK
-        string name
+        string content
         timestamp created_at
         timestamp updated_at
     }
@@ -59,6 +59,7 @@ erDiagram
     categories ||--o{ contacts : "1対多"
     contacts ||--o{ contact_tag : "多対多"
     tags ||--o{ contact_tag : "多対多"
+```
 
 ## 環境構築手順
 1. リポジトリのクローン
