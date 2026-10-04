@@ -25,7 +25,7 @@
                     <div class="col-span-2 bg-white px-6 py-4 flex items-center">
                         <span class="text-[#6b5744]">
                             @php
-                                $genderLabels = [1 => '男性', 2 => '女性', 3 => 'その他'];
+                            $genderLabels = [1 => '男性', 2 => '女性', 3 => 'その他'];
                             @endphp
                             {{ $genderLabels[$validated['gender']] ?? '' }}
                         </span>
@@ -64,14 +64,14 @@
 
                 <!-- 建物名 -->
                 @if (!empty($validated['building']))
-                    <div class="grid grid-cols-3 border-b border-gray-200">
-                        <div class="bg-[#baa999] px-6 py-4 flex items-center">
-                            <span class="text-sm font-medium text-white">建物名</span>
-                        </div>
-                        <div class="col-span-2 bg-white px-6 py-4 flex items-center">
-                            <span class="text-[#6b5744]">{{ $validated['building'] }}</span>
-                        </div>
+                <div class="grid grid-cols-3 border-b border-gray-200">
+                    <div class="bg-[#baa999] px-6 py-4 flex items-center">
+                        <span class="text-sm font-medium text-white">建物名</span>
                     </div>
+                    <div class="col-span-2 bg-white px-6 py-4 flex items-center">
+                        <span class="text-[#6b5744]">{{ $validated['building'] }}</span>
+                    </div>
+                </div>
                 @endif
 
                 <!-- お問い合わせの種類 -->
@@ -86,16 +86,16 @@
 
                 <!-- タグ -->
                 @isset($tags)
-                    @if ($tags->isNotEmpty())
-                        <div class="grid grid-cols-3 border-b border-gray-200">
-                            <div class="bg-[#baa999] px-6 py-4 flex items-center">
-                                <span class="text-sm font-medium text-white">タグ</span>
-                            </div>
-                            <div class="col-span-2 bg-white px-6 py-4 flex items-center">
-                                <span class="text-[#6b5744]">{{ $tags->pluck('name')->join(', ') }}</span>
-                            </div>
-                        </div>
-                    @endif
+                @if ($tags->isNotEmpty())
+                <div class="grid grid-cols-3 border-b border-gray-200">
+                    <div class="bg-[#baa999] px-6 py-4 flex items-center">
+                        <span class="text-sm font-medium text-white">タグ</span>
+                    </div>
+                    <div class="col-span-2 bg-white px-6 py-4 flex items-center">
+                        <span class="text-[#6b5744]">{{ $tags->pluck('name')->join(', ') }}</span>
+                    </div>
+                </div>
+                @endif
                 @endisset
 
                 <!-- お問い合わせ内容 -->
@@ -118,9 +118,9 @@
                 <input type="hidden" name="building" value="{{ $validated['building'] ?? '' }}">
                 <input type="hidden" name="category_id" value="{{ $validated['category_id'] }}">
                 @if (!empty($validated['tag_ids']))
-                    @foreach ($validated['tag_ids'] as $tagId)
-                        <input type="hidden" name="tag_ids[]" value="{{ $tagId }}">
-                    @endforeach
+                @foreach ($validated['tag_ids'] as $tagId)
+                <input type="hidden" name="tag_ids[]" value="{{ $tagId }}">
+                @endforeach
                 @endif
                 <input type="hidden" name="detail" value="{{ $validated['detail'] }}">
 
@@ -130,7 +130,7 @@
                         class="px-16 py-3 bg-[#7d7470] hover:bg-[#6b5f57] border border-transparent rounded font-medium text-white transition">
                         送信
                     </button>
-                    <button type="button" onclick="history.back()"
+                    <button type="submit" name="back" value="true"
                         class="px-8 py-3 text-[#6b5744] transition">
                         修正
                     </button>

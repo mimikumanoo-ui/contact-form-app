@@ -45,6 +45,12 @@ class ContactController extends Controller
      */
     public function store(StoreContactRequest $request)
     {
+        // 「修正」ボタンが押された場合：入力値を保持して入力画面に戻る
+        if ($request->has('back')) {
+            return redirect('/')
+                ->withInput();
+        }
+
         $validated = $request->validated();
 
         // トランザクションを張り contacts および contact_tag へ保存
