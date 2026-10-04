@@ -14,14 +14,14 @@ class ContactFactory extends Factory
     {
         return [
             'category_id' => Category::inRandomOrder()->first()?->id ?? 1,
-            'first_name'  => $this->faker->firstName(),
-            'last_name'   => $this->faker->lastName(),
-            'gender'      => $this->faker->numberBetween(1, 3),
-            'email'       => $this->faker->safeEmail(),
-            'tel'         => $this->faker->numerify('00000000000'),
-            'address'     => $this->faker->address(),
-            'building'    => $this->faker->secondaryAddress(),
-            'detail'      => $this->faker->realText(100),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'gender' => $this->faker->numberBetween(1, 3),
+            'email' => $this->faker->safeEmail(),
+            'tel' => $this->faker->numerify('00000000000'),
+            'address' => $this->faker->address(),
+            'building' => $this->faker->secondaryAddress(),
+            'detail' => $this->faker->realText(100),
         ];
     }
 }
