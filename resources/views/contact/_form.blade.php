@@ -8,15 +8,15 @@
     </div>
     <div class="col-span-2">
         <div class="flex gap-4">
-            <input type="text" name="first_name" placeholder="例: 山田" value="{{ old('first_name') }}"
+            <input type="text" name="last_name" placeholder="例: 山田" value="{{ old('last_name') }}"
                 class="flex-1 px-4 py-3 bg-[#f5f5f5] border-0 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300" />
-            <input type="text" name="last_name" placeholder="例: 太郎" value="{{ old('last_name') }}"
+            <input type="text" name="first_name" placeholder="例: 太郎" value="{{ old('first_name') }}"
                 class="flex-1 px-4 py-3 bg-[#f5f5f5] border-0 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300" />
         </div>
-        @error('first_name')
+        @error('last_name')
             <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
         @enderror
-        @error('last_name')
+        @error('first_name')
             <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
         @enderror
     </div>
@@ -49,7 +49,7 @@
             </label>
         </div>
         @error('gender')
-            <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
+        <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
         @enderror
     </div>
 </div>
@@ -66,17 +66,17 @@
         <input type="email" name="email" placeholder="例: test@example.com" value="{{ old('email') }}"
             class="w-full px-4 py-3 bg-[#f5f5f5] border-0 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300" />
         @error('email')
-            <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
+        <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
         @enderror
     </div>
 </div>
 
 <!-- 電話番号 -->
 @php
-    $telParts = explode('-', old('tel', ''));
-    $tel1 = old('tel1', $telParts[0] ?? '');
-    $tel2 = old('tel2', $telParts[1] ?? '');
-    $tel3 = old('tel3', $telParts[2] ?? '');
+$telParts = explode('-', old('tel', ''));
+$tel1 = old('tel1', $telParts[0] ?? '');
+$tel2 = old('tel2', $telParts[1] ?? '');
+$tel3 = old('tel3', $telParts[2] ?? '');
 @endphp
 <div class="grid grid-cols-3 gap-8 mb-4">
     <div class="col-span-1 flex items-center">
@@ -101,7 +101,7 @@
         </div>
         <input type="hidden" name="tel" id="tel" value="{{ old('tel') }}">
         @error('tel')
-            <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
+        <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
         @enderror
     </div>
 </div>
@@ -118,7 +118,7 @@
         <input type="text" name="address" placeholder="例: 東京都渋谷区千駄ヶ谷1-2-3" value="{{ old('address') }}"
             class="w-full px-4 py-3 bg-[#f5f5f5] border-0 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300" />
         @error('address')
-            <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
+        <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
         @enderror
     </div>
 </div>
@@ -134,7 +134,7 @@
         <input type="text" name="building" placeholder="例: 千駄ヶ谷マンション305" value="{{ old('building') }}"
             class="w-full px-4 py-3 bg-[#f5f5f5] border-0 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300" />
         @error('building')
-            <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
+        <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
         @enderror
     </div>
 </div>
@@ -153,9 +153,9 @@
                 class="w-full px-4 py-3 bg-[#f5f5f5] border-0 text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-300 appearance-none cursor-pointer">
                 <option value="" disabled {{ old('category_id') == '' ? 'selected' : '' }}>選択してください</option>
                 @foreach ($categories as $category)
-                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                        {{ $category->content }}
-                    </option>
+                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                    {{ $category->content }}
+                </option>
                 @endforeach
             </select>
             <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
@@ -165,7 +165,7 @@
             </div>
         </div>
         @error('category_id')
-            <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
+        <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
         @enderror
     </div>
 </div>
@@ -181,12 +181,12 @@
     <div class="col-span-2">
         <div class="flex flex-wrap gap-4 py-3">
             @foreach ($tags as $tag)
-                <label class="flex items-center cursor-pointer">
-                    <input type="checkbox" name="tag_ids[]" value="{{ $tag->id }}"
-                        {{ in_array($tag->id, old('tag_ids', [])) ? 'checked' : '' }}
-                        class="w-4 h-4 text-[#6b5744] border-gray-300 focus:ring-[#6b5744]" />
-                    <span class="ml-2 text-gray-700">{{ $tag->name }}</span>
-                </label>
+            <label class="flex items-center cursor-pointer">
+                <input type="checkbox" name="tag_ids[]" value="{{ $tag->id }}"
+                    {{ in_array($tag->id, old('tag_ids', [])) ? 'checked' : '' }}
+                    class="w-4 h-4 text-[#6b5744] border-gray-300 focus:ring-[#6b5744]" />
+                <span class="ml-2 text-gray-700">{{ $tag->name }}</span>
+            </label>
             @endforeach
         </div>
     </div>
@@ -205,7 +205,7 @@
         <textarea name="detail" placeholder="お問い合わせ内容をご記載ください" rows="6"
             class="w-full px-4 py-3 bg-[#f5f5f5] border-0 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300 resize-none">{{ old('detail') }}</textarea>
         @error('detail')
-            <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
+        <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
         @enderror
     </div>
 </div>
