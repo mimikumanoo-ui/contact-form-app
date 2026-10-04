@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <form action="/logout" method="post">
+        <form action="{{ route('logout') }}" method="post">
             @csrf
             <button
                 class="px-5 py-1.5 border border-[#ddd8d3] text-[#c4bab0] bg-white rounded hover:bg-gray-50 transition lowercase text-sm">logout</button>
@@ -14,7 +14,7 @@
 
             <!-- 検索フォーム -->
             <div class="mb-4">
-                <form class="flex flex-wrap items-center gap-3" action="/admin" method="get">
+                <form class="flex flex-wrap items-center gap-3" action="{{ route('admin.index') }}" method="get">
                     <div class="flex-1 min-w-[200px]">
                         <input type="text" name="keyword" value="{{ request('keyword') }}"
                             placeholder="名前やメールアドレスを入力してください"
@@ -34,9 +34,9 @@
                             class="w-full px-4 py-2 bg-white border border-[#ddd8d3] rounded text-[#9a938c] focus:outline-none focus:border-amber-500">
                             <option value="">お問い合わせの種類</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->content }}
-                                </option>
+                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->content }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -51,7 +51,7 @@
                         </button>
                     </div>
                     <div>
-                        <a href="/admin"
+                        <a href="{{ route('admin.index') }}"
                             class="px-6 py-2 bg-[#e8ddd2] text-[#9a938c] rounded hover:bg-[#ddd2c7] inline-block">
                             リセット
                         </a>
@@ -84,32 +84,32 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         @forelse ($contacts as $contact)
-                            <tr>
-                                <td class="px-6 py-4 text-sm text-gray-700">{{ $contact->first_name }} {{ $contact->last_name }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-700">
-                                    @php
-                                        $genderLabels = [1 => '男性', 2 => '女性', 3 => 'その他'];
-                                    @endphp
-                                    {{ $genderLabels[$contact->gender] ?? '' }}
-                                </td>
-                                <td class="px-6 py-4 text-sm text-gray-700">{{ $contact->email }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-700">{{ $contact->category->content ?? '' }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-700">
-                                    @if(method_exists($contact, 'tags'))
-                                        @foreach ($contact->tags as $tag)
-                                            <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-1">{{ $tag->name }}</span>
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4 text-sm">
-                                    <a href="/admin/contacts/{{ $contact->id }}"
-                                        class="text-amber-600 hover:text-amber-800">詳細</a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-700">{{ $contact->first_name }} {{ $contact->last_name }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                @php
+                                $genderLabels = [1 => '男性', 2 => '女性', 3 => 'その他'];
+                                @endphp
+                                {{ $genderLabels[$contact->gender] ?? '' }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">{{ $contact->email }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">{{ $contact->category->content ?? '' }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                @if(method_exists($contact, 'tags'))
+                                @foreach ($contact->tags as $tag)
+                                <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-1">{{ $tag->name }}</span>
+                                @endforeach
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 text-sm">
+                                <a href="{{ route('admin.show', $contact->id) }}"
+                                    class="text-amber-600 hover:text-amber-800">詳細</a>
+                            </td>
+                        </tr>
                         @empty
-                            <tr>
-                                <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">データがありません</td>
-                            </tr>
+                        <tr>
+                            <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">データがありません</td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -130,7 +130,7 @@
                     <input type="text" id="tag-name-input" name="name" placeholder="例: 新機能の要望"
                         class="w-full px-4 py-2 bg-white border border-[#ddd8d3] rounded text-gray-700 placeholder-[#c4bab0] focus:outline-none focus:border-amber-500" />
                     @error('name')
-                        <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                    <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
                     @enderror
                     <div class="flex items-center gap-3 mt-4">
                         <button type="submit"
@@ -150,31 +150,31 @@
                         </thead>
                         <tbody>
                             @forelse ($tags as $tag)
-                                <tr class="border-b border-gray-100">
-                                    <td class="px-6 py-3 text-sm text-gray-700">
-                                        {{ $tag->name }}
-                                    </td>
-                                    <td class="px-6 py-3 text-sm text-right">
-                                        <a href="/admin/tags/{{ $tag->id }}/edit"
-                                            class="px-3 py-1 text-xs bg-[#7d7470] text-white rounded hover:bg-[#6b5f57] inline-block">
-                                            編集
-                                        </a>
-                                        <form action="/admin/tags/{{ $tag->id }}" method="post" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="px-3 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600">
-                                                削除
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="px-6 py-3 text-sm text-gray-700">
+                                    {{ $tag->name }}
+                                </td>
+                                <td class="px-6 py-3 text-sm text-right">
+                                    <a href="/admin/tags/{{ $tag->id }}/edit"
+                                        class="px-3 py-1 text-xs bg-[#7d7470] text-white rounded hover:bg-[#6b5f57] inline-block">
+                                        編集
+                                    </a>
+                                    <form action="/admin/tags/{{ $tag->id }}" method="post" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="px-3 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600">
+                                            削除
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                             @empty
-                                <tr>
-                                    <td colspan="2" class="px-6 py-4 text-center text-sm text-gray-500">
-                                        タグがありません
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td colspan="2" class="px-6 py-4 text-center text-sm text-gray-500">
+                                    タグがありません
+                                </td>
+                            </tr>
                             @endforelse
                         </tbody>
                     </table>
