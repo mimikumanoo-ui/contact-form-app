@@ -14,13 +14,9 @@
                             class="block mt-1 w-full border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm px-3 py-2"
                             type="email" name="email" value="{{ old('email') }}" placeholder="email@example.com" required
                             autofocus />
-                        @if ($errors->get('email'))
-                            <ul class="text-sm text-red-600 space-y-1 mt-2">
-                                @foreach ((array) $errors->get('email') as $message)
-                                    <li>{{ $message }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
+                        @error('email')
+                        <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Password -->
@@ -31,13 +27,9 @@
                         <input id="password"
                             class="block mt-1 w-full border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm px-3 py-2"
                             type="password" name="password" placeholder="password" required />
-                        @if ($errors->get('password'))
-                            <ul class="text-sm text-red-600 space-y-1 mt-2">
-                                @foreach ((array) $errors->get('password') as $message)
-                                    <li>{{ $message }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
+                        @error('password')
+                        <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="flex items-center justify-center mt-6">
