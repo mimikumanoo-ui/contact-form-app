@@ -1,10 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
+use Illuminate\Support\Facades\Route;
 
-// お問い合わせ入力画面表示
+// お問い合わせ入力画面
 Route::get('/', [ContactController::class, 'index'])->name('contact.index');
 
-// お問い合わせフォーム送信（バリデーション実行・確認画面等へ）
+// お問い合わせ確認画面
 Route::post('/contacts/confirm', [ContactController::class, 'confirm'])->name('contact.confirm');
+
+// お問い合わせ送信処理
+Route::post('/contacts', [ContactController::class, 'store'])->name('contact.store');
+
+// お問い合わせ送信完了画面
+Route::get('/thanks', [ContactController::class, 'thanks'])->name('contact.thanks');
